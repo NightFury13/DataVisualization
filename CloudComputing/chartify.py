@@ -14,17 +14,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def hello_world():
-    return '''
-    <!doctype html>
-    <title>Landing Page</title>
-    <h1>Cloud Project : Data visualization</h1>
-    <p>Currently the different blocks in place are :</p>
-    <ul>
-        <li> '/upload' : File upload [txt/csv]</li>
-        <li> '/uploads' : redirected from /upload, shows file contents</li>
-        <li> '/dummy' : a dummy graph built on c3.js</li>
-    </ul>
-    '''
+    return render_template('hello_world.html')
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -39,15 +29,7 @@ def upload_file():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('uploaded_file', filename=filename))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form action="" method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value=Upload>
-    </form>
-    '''
+    return render_template('upload_file.html')
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -56,6 +38,10 @@ def allowed_file(filename):
 @app.route('/dummy')
 def dummy_graph():
     return render_template('dummy.html')
+
+@app.route('/help')
+def help():
+    return render_template('cool.html')
 
 
 if __name__ == '__main__':
