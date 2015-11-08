@@ -39,10 +39,6 @@ def allowed_file(filename):
 def dummy_graph():
     return render_template('dummy.html')
 
-@app.route('/help')
-def help():
-    return render_template('cool.html')
-
 
 if __name__ == '__main__':
     app.run()

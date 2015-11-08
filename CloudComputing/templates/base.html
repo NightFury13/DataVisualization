@@ -5,8 +5,23 @@
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
   </head>
   <body>
-    {% block content %}
-    {% endblock %}
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{{ url_for('hello_world') }}">Chartify</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="{{ url_for('upload_file') }}">Upload</a></li>
+            <li><a href="{{ url_for('dummy_graph') }}">Dummy</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
   </body>
