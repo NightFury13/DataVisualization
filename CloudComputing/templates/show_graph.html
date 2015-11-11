@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}
+{% if 'name' in file_content.keys() %}
+    {{ file_content['name'] }}
+{% else %}
+    {{ file_content['filename'] }}
+{% endif %}
+{% endblock %}
+{% block content %}
+  <h1>{% if 'name' in file_content.keys() %}{{ file_content['name'] }}{% else %}{{ file_content['filename'] }}{% endif %}</h1>
+  <div id="chart"></div>
+  <script>
+    var chart = c3.generate({
+      bindto: '#chart',
+      data: {
+        columns: [
+          {% for key in file_content['data'] %}
+            {{ file_content['data'][key] }},
+          {% endfor %}
+        ],
+        {% if 'type' in file_content.keys() %}
+        type: {{ file_content['type'] }},
+        {% if 'types' in file_content.keys() %}
+        types: {{ file_content['types'] }},
+        {% if 'groups' in file_content.keys() %}
+        groups: {{ file_content['groups'] }},
+      }
+    });
+  </script>
+{% endblock %}
