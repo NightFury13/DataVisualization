@@ -10,6 +10,7 @@
 from flask import Flask
 import os
 import sys
+import json
 from flask import request, redirect, url_for, send_from_directory, render_template
 from werkzeug import secure_filename
 
@@ -33,7 +34,7 @@ def uploaded_file(filename):
     """
     if check_file(filename,'csv'):
         file_content = parse_csv(filename)
-        return render_template('show_graph.html',file_content=file_content, valid_file=True)
+        return render_template('show_graph.html',file_content=file_content,file_content_json=json.dumps(file_content), valid_file=True)
     else:
         file_content = send_from_directory(app.config['UPLOAD_FOLDER'], filename)
         return render_template('show_graph.html',file_content=file_content, valid_file=False)
@@ -77,21 +78,29 @@ def parse_csv(filename):
                     else:
                         file_content['data'][line_content[1]] = [line_content[1]]+[float(val) for val in line_content[2:]]
                 elif line_content[0] == 'type':
-                    file_content['type'] = line_content[1].strip()
+                    file_content['type'] = js_string(line_content[1].strip())
                 elif line_content[0] == 'types':
                     if not 'types' in file_content.keys():
-                        file_content['types'] = {line_content[1]:line_content[2]}
+                        file_content['types'] = {line_content[1]:js_string(line_content[2].strip())}
                     else:
-                        file_content['types'][line_content[1]] = line_content[2]
+                        file_content['types'][line_content[1]] = js_string(line_content[2].strip())
                 elif line_content[0] == 'groups':
                     if not 'groups' in file_content.keys():
-                        file_content['groups'] = [[line_content[1],line_content[2]]]
+                        file_content['groups'] = [[line_content[1].strip(),line_content[2].strip()]]
                     else:
-                        file_content['groups'].append([line_content[1],line_content[2]])
+                        file_content['groups'].append([line_content[1].strip(),line_content[2].strip()])
 
         return file_content
     except:
         return sys.exc_info()[0]
+
+def js_string(string):
+    """
+    Returns:
+        string suitable for use in JS.
+        eg. mohit --> 'mohit'
+    """
+    return "'"+string+"'"
 
 def check_file(filename, filetype):
     """

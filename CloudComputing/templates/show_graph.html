@@ -14,7 +14,9 @@
     {% if valid_file %}
       <h1>{% if 'name' in file_content.keys() %}{{ file_content['name'] }}{% else %}{{ file_content['filename'] }}{% endif %}</h1>
       <div id="chart"></div>
-      <p>{{ file_content }}</p>
+      <br/>
+      <h4>Corresponding JSON created :</h4>
+      <p>{{ file_content_json }}</p>
       <script>
         var chart = c3.generate({
           bindto: '#chart',
@@ -28,10 +30,18 @@
                 type: {{ file_content['type'] | safe }},
                 {% endif %}
                 {% if 'types' in file_content.keys() %}
-                types: {{ file_content['types'] | safe}},
+                types: {
+                    {% for key in file_content['types'].keys() %}
+                        {{ key+':'+file_content['types'][key] | safe}},
+                    {% endfor %}
+                },
                 {% endif %}
                 {% if 'groups' in file_content.keys() %}
-                groups: {{ file_content['groups'] | safe}},
+                groups: [
+                    {% for pair in file_content['groups'] %}
+                        {{ pair | safe}},
+                    {% endfor %}
+                ],
                 {% endif %}
           }
         });
