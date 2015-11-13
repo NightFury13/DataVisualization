@@ -1,0 +1,11 @@
+name,Sample Graph
+data,data1,30,20,50,40,60,50
+data,data2,200,130,90,240,130,220
+data,data3,20,10,50,20,100,60
+data,data4,120,250,130,20,40,30
+data,data5,20,60,140,30,70,160
+type,bar
+types,data3,spline
+types,data4,area
+groups,data1,data2
+groups,data1,data5

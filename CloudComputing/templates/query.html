@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}
+Query the DB
+{% endblock %}
+{% block content %}
+  <h1>Query the DB</h1>
+  <p>Format: field1.field2.(..).fieldn:value1,field1.field2.(..).fieldn:value2</p>
+  <form action="" method=post enctype=multipart/form-data>
+    <input type=text name=query>
+    <input type=submit value=Submit>
+  </form>
+{% endblock %}
